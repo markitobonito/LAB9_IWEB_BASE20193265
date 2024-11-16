@@ -3,7 +3,6 @@ package com.example.lab9_base.Dao;
 import com.example.lab9_base.Bean.Partido;
 import com.example.lab9_base.Bean.Seleccion;
 import com.example.lab9_base.Bean.Arbitro;
-
 import java.sql.*;
 import java.util.ArrayList;
 
