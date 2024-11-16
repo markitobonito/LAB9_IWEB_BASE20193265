@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@WebServlet(name = "PartidoServlet", urlPatterns = {"/PartidoServlet", ""})
+@WebServlet(name = "PartidoServlet", urlPatterns = {"/PartidoServlet"})
 public class PartidoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -54,8 +54,6 @@ public class PartidoServlet extends HttpServlet {
                     Arbitro arbitro = new Arbitro();
                     arbitro.setIdArbitro(idArbitro);
                     partido.setArbitro(arbitro);
-
-                    // Check if partido already exists
                     if (daoPartidos.existePartido(partido)) {
                         request.setAttribute("error", "El partido ya existe.");
                         view = request.getRequestDispatcher("partidos/form.jsp");
@@ -77,7 +75,6 @@ public class PartidoServlet extends HttpServlet {
                 break;
         }
     }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action") == null ? "lista" : request.getParameter("action");
@@ -86,21 +83,19 @@ public class PartidoServlet extends HttpServlet {
 
         switch (action) {
             case "lista":
-                // Load and set partido list attribute
+
                 request.setAttribute("listaPartidos", daoPartidos.listaDePartidos());
-                view = request.getRequestDispatcher("index.jsp");
+                view = request.getRequestDispatcher("/index.jsp");
                 view.forward(request, response);
                 break;
 
             case "crear":
-                // Forward to form for creating a partido
-                view = request.getRequestDispatcher("partidos/form.jsp");
+                view = request.getRequestDispatcher("/partidos/form.jsp");
                 view.forward(request, response);
                 break;
 
             default:
-                // Redirect to the list as default action
-                response.sendRedirect("PartidoServlet?action=lista");
+                response.sendRedirect(request.getContextPath() +"PartidoServlet?action=lista");
                 break;
         }
     }
